@@ -1,0 +1,43 @@
+
+<div class="payment-button-fixed">
+  <button onclick="openPaymentPopup()">💳 Payment di sini</button>
+</div>
+
+<div id="paymentPopup" style="display: none; position: fixed; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0, 0, 0, 0.7); z-index: 9999; justify-content: center; align-items: center;">
+  <div class="content" style="background: #111; color: #00bfff; border-radius: 12px; padding: 30px 20px; text-align: center; box-shadow: 0 0 30px rgba(0, 191, 255, 0.4); max-width: 350px; width: 90%;">
+    <h3>Pilih Metode Pembayaran</h3>
+    <button onclick="showQR('dana')">Dana</button>
+    <button onclick="showQR('gopay')">Gopay</button>
+    <button onclick="showQR('qris')">QRIS</button>
+    <div id="qrContainer"></div>
+    <br>
+    <button onclick="closePaymentPopup()">Tutup</button>
+  </div>
+</div>
+
+<script>
+  function openPaymentPopup() {
+    document.getElementById("paymentPopup").style.display = "flex";
+  }
+
+  function closePaymentPopup() {
+    document.getElementById("paymentPopup").style.display = "none";
+    document.getElementById("qrContainer").innerHTML = "";
+  }
+
+  function showQR(method) {
+    let nomor = "0838-9273-0732";
+    if (method === 'qris') {
+      document.getElementById("qrContainer").innerHTML =
+        '<img src="https://raw.githubusercontent.com/media-clouds/upload/id/6283892730732/mc1o0c3r.jpg" alt="QRIS" style="max-width: 250px; width: 100%; border-radius: 10px;">';
+    } else {
+      navigator.clipboard.writeText(nomor).then(() => {
+        document.getElementById("qrContainer").innerHTML =
+          `Nomor ${method.toUpperCase()}: ${nomor}<br><small style="color:lime;">Disalin ke clipboard</small>`;
+      }).catch(() => {
+        document.getElementById("qrContainer").innerHTML =
+          `Nomor ${method.toUpperCase()}: ${nomor}<br><small style="color:red;">Gagal menyalin</small>`;
+      });
+    }
+  }
+</script>
